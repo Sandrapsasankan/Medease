@@ -1,8 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:medico/config/color.dart';
-import 'package:medico/design/home.dart';
-import 'package:medico/design/profile.dart';
+import 'package:medico/design/user/cart.dart';
+import 'package:medico/design/user/home.dart';
+import 'package:medico/design/user/profile.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -14,9 +15,10 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   final items = const [
     // Icon(Icons.people, size: 30,),
-    Icon(Icons.home, size: 30,),
-    Icon(Icons.person, size: 30,),
-    Icon(Icons.search_outlined, size: 30,)
+
+    Icon(Icons.person, size: 30,color: Colors.white,),
+    Icon(Icons.home, size: 30,color: Colors.white,),
+    Icon(Icons.shopping_cart, size: 30,color: Colors.white,)
   ];
 
   int index = 1;
@@ -39,7 +41,7 @@ class _NavbarState extends State<Navbar> {
         // animationCurve: ,
       ),
       body: Container(
-          // color: Colors.blue,
+
           width: double.infinity,
           height: double.infinity,
           alignment: Alignment.center,
@@ -51,13 +53,13 @@ class _NavbarState extends State<Navbar> {
     Widget widget;
     switch(index){
       case 0:
+        widget = const Profile();
+        break;
+      case 1:
         widget = const Home();
         break;
-      // case 1:
-      //   widget = const Home();
-      //   break;
       default:
-        widget = const Profile();
+        widget = CartPage();
         break;
     }
     return widget;

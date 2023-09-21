@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:medico/design/home.dart';
-import 'package:medico/design/register.dart';
+import 'package:medico/config/constants.dart';
+import 'package:medico/design/Register.dart';
+import 'package:medico/design/medishop/home.dart';
+import 'package:medico/design/user/home.dart';
+import 'package:medico/design/user/navbar.dart';
+import 'package:medico/design/user/register.dart';
 import 'package:medico/services/apisevice.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -39,14 +43,16 @@ class _loginState extends State<login> {
       'username': userController.text.trim(), //username for email
       'password': pwdController.text.trim()
     };
-    var res = await Api().authData(data, '/api/user_login');
+    print(data);
+    var res = await Api().authData(data, APIConstants.login);
     var body = json.decode(res.body);
-
+    print(body);
     if (body['success'] == true) {
-      print(body);
+
 
       role = body['data']['role'];
       status = body['data']['l_status'];
+      print("role$role");
 
       localStorage = await SharedPreferences.getInstance();
       localStorage.setString('role', role.toString());
@@ -59,11 +65,11 @@ class _loginState extends State<login> {
 
       if (user == role ) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
+            context, MaterialPageRoute(builder: (context) => Navbar()));
       }
       else if (medishop == role) {
         Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => Home(),
+          builder: (context) => MedHome(),
         ));
       } else {
         Fluttertoast.showToast(
@@ -170,7 +176,7 @@ class _loginState extends State<login> {
                             children: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>register()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
                                 },
                                 child: Text(
                                   'Sign Up',

@@ -1,7 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:medico/config/color.dart';
-import 'package:medico/design/medicine.dart';
-import 'package:medico/design/nearest.dart';
+import 'package:medico/design/user/medicine.dart';
+import 'package:medico/design/user/nearest.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -11,6 +12,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List image=['images/img.png','images/img_1.png','images/img_2.png','images/img_3.png','images/img_4.png'];
+
+  final CarouselController carouselController=CarouselController();
+  int currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,26 +42,27 @@ class _HomeState extends State<Home> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Image.asset(
-                          'images/logo.png',
-                          height: 70,
-                          width: 70,
-                        ),
+                        // Image.asset(
+                        //   'images/logo.png',
+                        //   height: 70,
+                        //   width: 70,
+                        // ),
                         SizedBox(width: 20), // Use SizedBox to control spacing
                         Text(
-                          "Medease",
+                          "Your smart medicine finder",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        SizedBox()
                       ],
                     ),
                   ),
                 ),
                 Positioned(
-                  top: 10, // Adjust the top position as needed
+                  top: 20, // Adjust the top position as needed
                   right: 10, // Adjust the right position as needed
                   child: IconButton(
                     tooltip: "Logout",
@@ -65,7 +71,7 @@ class _HomeState extends State<Home> {
                     },
                     icon: Icon(
                       Icons.logout,
-                      size: 28,
+                      size: 28,color: Colors.white,
                     ),
                   )
                 ),
@@ -172,6 +178,35 @@ class _HomeState extends State<Home> {
                   ),
 
                 ],
+              ),
+            ),
+            SizedBox(height: 30,),
+            InkWell(
+              onTap: (){
+                print(currentIndex);
+              },
+              child: CarouselSlider(
+                items: image.map(
+                      (item) => Image.asset(
+                    item,
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 5,
+                  ),
+                ).toList(),
+                carouselController: carouselController,
+                options: CarouselOptions(
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    autoPlay: true,
+                    aspectRatio: 1.5,
+                    viewportFraction: 1,
+                    height: MediaQuery.of(context).size.height * .21,
+                    onPageChanged: (index,reason){
+                      setState(() {
+                        currentIndex=index;
+                      });
+                    }
+                ),
               ),
             ),
 
